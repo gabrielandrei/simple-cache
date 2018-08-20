@@ -64,7 +64,7 @@ class JsonDriver implements DriverInterface
     {
         $file = $this->fileAbsolute($realm, $idkey);
         if (is_file($file)) {
-            if (!unlink($file)) {
+            if (!@unlink($file)) {
                 throw new SimpleCacheException("Can't delete file: " . $file);
             }
         }
@@ -81,7 +81,7 @@ class JsonDriver implements DriverInterface
         $folder = $this->folderAbsolute($realm);
         foreach (glob($folder . '/*.json') as $file) {
             if (is_file($file)) {
-                if (!unlink($file)) {
+                if (!@unlink($file)) {
                     throw new SimpleCacheException("Can't delete file: " . $file);
                 }
             }
@@ -90,11 +90,14 @@ class JsonDriver implements DriverInterface
 
     /**
      * @param $folder
+     * @throws SimpleCacheException
      */
     private function folderCheck($folder)
     {
         if (!is_dir($folder)) {
-            mkdir($folder, 0777, true);
+            if(!@mkdir($folder, 0777, true)){
+                throw new SimpleCacheException("Can't create folder: ".$folder);
+            }
         }
     }
 
@@ -102,6 +105,7 @@ class JsonDriver implements DriverInterface
      * @param $realm
      * @param $file
      * @return string
+     * @throws SimpleCacheException
      */
     private function fileAbsolute($realm, $file)
     {
@@ -112,6 +116,7 @@ class JsonDriver implements DriverInterface
     /**
      * @param $realm
      * @return string
+     * @throws SimpleCacheException
      */
     private function folderAbsolute($realm)
     {
