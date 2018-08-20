@@ -23,7 +23,7 @@ class JsonDriverConfig
         //todo check validity
 
         $this->lifeDefault = $lifeDefault;
-        $this->cacheFolder = $cacheFolder;
+        $this->cacheFolder = '/'.trim($cacheFolder,'/');
     }
 
 
