@@ -31,6 +31,7 @@ class JsonDriver implements DriverInterface
      * @param $idkey
      * @param array $data
      * @return bool
+     * @throws SimpleCacheException
      */
     public function save($realm, $idkey, array $data): bool
     {
@@ -43,6 +44,7 @@ class JsonDriver implements DriverInterface
      * @param $idkey
      * @param int|null $life
      * @return array
+     * @throws SimpleCacheException
      */
     public function retrieve($realm, $idkey, int $life = null): array
     {

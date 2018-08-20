@@ -15,19 +15,13 @@ class SimpleCache
     private $driver;
 
     /**
-     * @var array
-     */
-    private $realms;
-
-    /**
      * SimpleCache constructor.
      * @param DriverInterface $driver
      * @param array $realms
      */
-    public function __construct(DriverInterface $driver, array $realms)
+    public function __construct(DriverInterface $driver)
     {
         $this->driver = $driver;
-        $this->realms = $realms;
     }
 
     /**
@@ -39,7 +33,6 @@ class SimpleCache
      */
     public function save($realm, $idkey, array $data): bool
     {
-        $this->checkRealm($realm);
         return $this->driver->save($realm,$idkey,$data);
     }
 
@@ -52,7 +45,6 @@ class SimpleCache
      */
     public function retrieve($realm, $idkey, int $life = null): array
     {
-        $this->checkRealm($realm);
         return $this->driver->retrieve($realm,$idkey,$life);
     }
 
@@ -64,7 +56,6 @@ class SimpleCache
      */
     public function invalidate($realm, $idkey)
     {
-        $this->checkRealm($realm);
         return $this->driver->invalidate($realm,$idkey);
 
     }
@@ -76,20 +67,6 @@ class SimpleCache
      */
     public function invalidateRealm($realm)
     {
-        $this->checkRealm($realm);
         return $this->driver->invalidateRealm($realm);
     }
-
-    /**
-     * @param $realm
-     * @throws \Exception
-     */
-    private function checkRealm($realm)
-    {
-        if(array_search($realm,$this->realms,true) === false){
-            throw new SimpleCacheException('Invalid Realms provided: '.$realm);
-        }
-    }
-
-
 }
