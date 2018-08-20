@@ -5,9 +5,9 @@
  * Time:         09:27
  */
 
-namespace Scache;
+namespace SimpleCache;
 
-class Scache
+class SimpleCache
 {
     /**
      * @var DriverInterface
@@ -20,7 +20,7 @@ class Scache
     private $realms;
 
     /**
-     * Scache constructor.
+     * SimpleCache constructor.
      * @param DriverInterface $driver
      * @param array $realms
      */

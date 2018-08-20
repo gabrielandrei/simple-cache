@@ -5,9 +5,9 @@
  * Time:         09:32
  */
 
-namespace Scache\Drivers;
+namespace SimpleCache\Drivers;
 
-use Scache\DriverInterface;
+use SimpleCache\DriverInterface;
 
 class Json implements DriverInterface
 {

@@ -5,7 +5,7 @@
  * Time:         09:29
  */
 
-namespace Scache;
+namespace SimpleCache;
 
 
 interface DriverInterface

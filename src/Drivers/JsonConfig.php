@@ -5,7 +5,7 @@
  * Time:         10:19
  */
 
-namespace Scache\Drivers;
+namespace SimpleCache\Drivers;
 
 
 class JsonConfig
