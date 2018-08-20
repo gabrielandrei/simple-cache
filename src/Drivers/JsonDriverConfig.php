@@ -8,7 +8,7 @@
 namespace SimpleCache\Drivers;
 
 
-class JsonConfig
+class JsonDriverConfig
 {
     private $lifeDefault;
     private $cacheFolder;
@@ -37,7 +37,7 @@ class JsonConfig
 
     /**
      * @param mixed $lifeDefault
-     * @return JsonConfig
+     * @return JsonDriverConfig
      */
     public function setLifeDefault($lifeDefault)
     {
@@ -55,7 +55,7 @@ class JsonConfig
 
     /**
      * @param mixed $cacheFolder
-     * @return JsonConfig
+     * @return JsonDriverConfig
      */
     public function setCacheFolder($cacheFolder)
     {

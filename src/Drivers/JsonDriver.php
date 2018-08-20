@@ -8,19 +8,20 @@
 namespace SimpleCache\Drivers;
 
 use SimpleCache\DriverInterface;
+use SimpleCache\SimpleCacheException;
 
-class Json implements DriverInterface
+class JsonDriver implements DriverInterface
 {
     /**
-     * @var JsonConfig
+     * @var JsonDriverConfig
      */
     private $jsonConfig;
 
     /**
      * Json constructor.
-     * @param JsonConfig $jsonConfig
+     * @param JsonDriverConfig $jsonConfig
      */
-    public function __construct(JsonConfig $jsonConfig)
+    public function __construct(JsonDriverConfig $jsonConfig)
     {
         $this->jsonConfig = $jsonConfig;
     }
@@ -56,28 +57,33 @@ class Json implements DriverInterface
     /**
      * @param $realm
      * @param $idkey
+     * @return bool|void
+     * @throws SimpleCacheException
      */
     public function invalidate($realm, $idkey)
     {
         $file = $this->fileAbsolute($realm, $idkey);
         if (is_file($file)) {
-            //todo exception
-            unlink($file);
+            if (!unlink($file)) {
+                throw new SimpleCacheException("Can't delete file: " . $file);
+            }
         }
 
     }
 
     /**
      * @param $realm
-     *
+     * @return bool|void
+     * @throws SimpleCacheException
      */
     public function invalidateRealm($realm)
     {
         $folder = $this->folderAbsolute($realm);
         foreach (glob($folder . '/*.json') as $file) {
             if (is_file($file)) {
-                //todo exception
-                unlink($file);
+                if (!unlink($file)) {
+                    throw new SimpleCacheException("Can't delete file: " . $file);
+                }
             }
         }
     }
@@ -118,6 +124,7 @@ class Json implements DriverInterface
      * @param $file
      * @param null $life
      * @return bool
+     * @throws SimpleCacheException
      */
     private function fileValid($file, $life = null)
     {
@@ -128,8 +135,7 @@ class Json implements DriverInterface
             $mmtime = filemtime($file);
 
             if ($mmtime === false) {
-                //todo exception?
-                return false;
+                throw new SimpleCacheException("Can't determine file modified time");
             }
 
             $life = $life !== null ? $life : $this->jsonConfig->getLifeDefault();
