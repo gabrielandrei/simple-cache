@@ -5,6 +5,8 @@
  * Time:         14:28
  */
 
+//****** NOT TESTED!
+
 namespace SimpleCache\Drivers;
 
 
@@ -78,4 +80,11 @@ class MemcachedDriver implements DriverInterface
         return $this->connection->flush();
     }
 
+    /**
+     * @return bool
+     */
+    public function invalidateAll()
+    {
+        return $this->connection->flush();
+    }
 }
