@@ -69,4 +69,11 @@ class SimpleCache
     {
         return $this->driver->invalidateRealm($realm);
     }
+
+    /**
+     * @return bool
+     */
+    public function invalidateAll(){
+        return $this->driver->invalidateAll();
+    }
 }
