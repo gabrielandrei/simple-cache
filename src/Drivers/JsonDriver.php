@@ -162,9 +162,10 @@ class JsonDriver implements DriverInterface
      */
     public function invalidateAll()
     {
-        foreach (glob($this->jsonConfig->getCacheFolder()) as $r) {
-            if (is_file($r)) {
-                $this->invalidateRealm($r);
+        foreach (glob($this->jsonConfig->getCacheFolder() . '/*') as $r) {
+            if (is_dir($r)) {
+                $b = basename($r);
+                $this->invalidateRealm($b);
             }
         }
         return true;
