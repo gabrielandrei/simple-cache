@@ -39,4 +39,9 @@ interface DriverInterface
      * @return bool
      */
     public function invalidateRealm($realm);
+
+    /**
+     * @return bool
+     */
+    public function invalidateAll();
 }

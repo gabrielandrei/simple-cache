@@ -155,4 +155,18 @@ class JsonDriver implements DriverInterface
 
         return true;
     }
+
+    /**
+     * @return bool
+     * @throws SimpleCacheException
+     */
+    public function invalidateAll()
+    {
+        foreach (glob($this->jsonConfig->getCacheFolder()) as $r) {
+            if (is_file($r)) {
+                $this->invalidateRealm($r);
+            }
+        }
+        return true;
+    }
 }
