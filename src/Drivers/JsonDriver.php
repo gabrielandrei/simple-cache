@@ -75,19 +75,19 @@ class JsonDriver implements DriverInterface
 
     /**
      * @param $realm
-     * @return bool|void
+     * @return bool
      * @throws SimpleCacheException
      */
     public function invalidateRealm($realm)
     {
         $folder = $this->folderAbsolute($realm);
-        foreach (glob($folder . '/*.json') as $file) {
-            if (is_file($file)) {
-                if (!@unlink($file)) {
-                    throw new SimpleCacheException("Can't delete file: " . $file);
-                }
-            }
+        $folder = $this->folderAbsolute($realm);
+        $di = new \RecursiveDirectoryIterator($folder, \FilesystemIterator::SKIP_DOTS);
+        $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ( $ri as $file ) {
+            $file->isDir() ?  rmdir($file) : unlink($file);
         }
+        return true;
     }
 
     /**
@@ -162,11 +162,10 @@ class JsonDriver implements DriverInterface
      */
     public function invalidateAll()
     {
-        foreach (glob($this->jsonConfig->getCacheFolder() . '/*') as $r) {
-            if (is_dir($r)) {
-                $b = basename($r);
-                $this->invalidateRealm($b);
-            }
+        $di = new \RecursiveDirectoryIterator($this->jsonConfig->getCacheFolder(), \FilesystemIterator::SKIP_DOTS);
+        $ri = new \RecursiveIteratorIterator($di, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ( $ri as $file ) {
+            $file->isDir() ?  rmdir($file) : unlink($file);
         }
         return true;
     }
